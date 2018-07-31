@@ -150,6 +150,7 @@ export default class DatePickerField extends Component {
           </View>
             :
           <TouchableOpacity
+            onPress={this.showDatePicker}
             style={{
               backgroundColor: theme.pickerBgColor,
               borderBottomColor: theme.inputBorderColor,
@@ -174,13 +175,13 @@ export default class DatePickerField extends Component {
                   || attributes.mode === 'datetime')
                 &&
                 <TouchableOpacity
-                  hitSlop={{ top: 10, bottom: 10, right: 50, left: 50 }}
+                  hitSlop={{ top: 10, bottom: 10, right: 300, left: 50 }}
                   style={{
                     marginHorizontal: 5,
                   }}
                 >
-                  <Text onPress={this.showDatePicker}>
-                    { (value && I18n.strftime(value, '%d %b %Y')) || 'Date' }
+                  <Text  onPress={this.showDatePicker}>
+                    { (value && I18n.strftime(value, '%d %b %Y')) || 'Data' }
                   </Text>
                 </TouchableOpacity>
             }

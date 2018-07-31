@@ -19,10 +19,10 @@ export function autoValidate(field) {
       case 'email':
         if (isEmpty(field.value)) {
           error = true;
-          errorMsg = `${field.label} is required`;
+          errorMsg = `${field.label} é obrigatório`;
         } else if (!isEmail(field.value)) {
           error = true;
-          errorMsg = 'Please enter a valid email';
+          errorMsg = 'Digite um e-mail válido';
         }
         break;
       case 'text':
@@ -30,16 +30,16 @@ export function autoValidate(field) {
       case 'password':
         if (isEmpty(field.value)) {
           error = true;
-          errorMsg = `${field.label} is required`;
+          errorMsg = `${field.label} é obrigatório`;
         }
         break;
       case 'number':
         if (field.type === 'number') {
           if (isEmpty(field.value)) {
             error = true;
-            errorMsg = `${field.label} is required`;
+            errorMsg = `${field.label} é obrigatório`;
           } else if (isNaN(field.value)) {
-            errorMsg = `${field.label} should be a number`;
+            errorMsg = `${field.label} deve ser um número`;
           }
         }
         break;

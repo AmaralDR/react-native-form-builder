@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { View, Text } from 'native-base';
+import { View, Text, Icon } from 'native-base';
 import I18n from 'react-native-i18n';
 import { Platform, DatePickerIOS, DatePickerAndroid, TouchableOpacity, TimePickerAndroid } from 'react-native';
 import Panel from '../../components/panel';
@@ -113,7 +113,7 @@ export default class DatePickerField extends Component {
                   }}
                 >
                   <Text>
-                    { (value && I18n.strftime(value, '%d %b %Y')) || 'None' }
+                    { (value && I18n.strftime(value, '%d %b %Y')) || 'Selecione' }
                   </Text>
                 </View>
             }
@@ -128,7 +128,7 @@ export default class DatePickerField extends Component {
                   }}
                 >
                   <Text>
-                    { (value && I18n.strftime(value, '%I:%M %p')) || 'None' }
+                    { (value && I18n.strftime(value, '%I:%M %p')) || 'Selecione' }
                   </Text>
                 </View>
             }
@@ -164,7 +164,8 @@ export default class DatePickerField extends Component {
               justifyContent: 'space-between',
             }}
           >
-            <Text style={{ color: theme.labelActiveColor }}>{attributes.label}</Text>
+            <Icon color={theme.textInputIconColor} name={attributes.icon} style={attributes.iconStyle} />
+            <Text style={{ ...attributes.labelStyle, ...{color: theme.labelActiveColor}}}>{attributes.label}</Text>
             <View
               style={{
                 flexDirection: 'row',
@@ -181,7 +182,7 @@ export default class DatePickerField extends Component {
                   }}
                 >
                   <Text  onPress={this.showDatePicker}>
-                    { (value && I18n.strftime(value, '%d %b %Y')) || 'Data' }
+                    { (value && I18n.strftime(value, '%d %b %Y')) || 'Selecione' }
                   </Text>
                 </TouchableOpacity>
             }

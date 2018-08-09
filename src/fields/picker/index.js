@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { View, Text } from 'native-base';
+import { View, Text, Icon } from 'native-base';
 import { Platform, Picker, TouchableOpacity } from 'react-native';
 import Panel from '../../components/panel';
 import styles from './../../styles';
@@ -30,8 +30,11 @@ export default class PickerField extends Component {
             borderBottomWidth: theme.borderWidth,
           }}}
         >
+          <View>
+            <Icon color={theme.textInputIconColor} name={attributes.icon} style={attributes.iconStyle} />
+          </View>
           <View style={{ flex: 7 }}>
-            <Text style={{ color: theme.inputColorPlaceholder }}>{attributes.label}</Text>
+            <Text style={{ ...attributes.labelStyle, ...{color: theme.inputColorPlaceholder}}}>{attributes.label}</Text>
           </View>
           <View style={{ flex: 3 }}>
             <Picker

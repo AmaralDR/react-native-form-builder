@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { View, Text, Switch } from 'native-base';
+import { View, Text, Switch, Icon } from 'native-base';
 
 export default class SwitchField extends Component {
   static propTypes = {
@@ -30,7 +30,8 @@ export default class SwitchField extends Component {
             justifyContent: 'space-between',
           }}
         >
-          <Text style={{ color: theme.labelActiveColor }}>{attributes.label}</Text>
+          <Icon color={theme.textInputIconColor} name={attributes.icon} style={attributes.iconStyle} />
+          <Text style={{ ...attributes.labelStyle, ...{color: theme.labelActiveColor}}}>{attributes.label}</Text>
           <Switch
             // onTintColor={'blue'}
             onValueChange={value => this.handleChange(value)}

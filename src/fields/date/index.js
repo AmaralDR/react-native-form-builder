@@ -4,6 +4,7 @@ import { View, Text, Icon } from 'native-base';
 import I18n from 'react-native-i18n';
 import { Platform, DatePickerIOS, DatePickerAndroid, TouchableOpacity, TimePickerAndroid } from 'react-native';
 import Panel from '../../components/panel';
+import Moment from 'moment';
 
 export default class DatePickerField extends Component {
   static defaultProps = {
@@ -121,7 +122,8 @@ export default class DatePickerField extends Component {
                     }}
                   >
                     <Text>
-                      {(value && I18n.strftime(value, '%d %b %Y')) || 'Selecione'}
+                      {(value && Moment(value).format(attributes.dataFormat || 'YYYY-MM-DD')) || 'Selecione'}
+                      {/* {(value && I18n.strftime(value, '%d %b %Y')) || 'Selecione'} */}
                     </Text>
                   </View>
                 }
@@ -197,7 +199,8 @@ export default class DatePickerField extends Component {
                   }}
                 >
                   <Text onPress={this.showDatePicker}>
-                    {(value && I18n.strftime(value, '%d %b %Y')) || 'Selecione'}
+                    {(value && Moment(value).format(attributes.dataFormat || 'YYYY-MM-DD')) || 'Selecione'}
+                    {/* {(value && I18n.strftime(value, '%d %b %Y')) || 'Selecione'} */}
                   </Text>
                 </TouchableOpacity>
               }

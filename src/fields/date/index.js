@@ -96,7 +96,8 @@ export default class DatePickerField extends Component {
                 justifyContent: 'space-between',
               }}
             >
-              <Text style={{ color: theme.labelActiveColor }}>{attributes.label}</Text>
+              <Icon color={theme.textInputIconColor} name={attributes.icon} style={attributes.iconStyle} />
+              <Text style={{ ...attributes.labelStyle, ...{color: theme.labelActiveColor}}}>{attributes.label}</Text>
               <View
                 style={{
                   flexDirection: 'row',

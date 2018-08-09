@@ -76,7 +76,7 @@ export default class DatePickerField extends Component {
     const mode = attributes.mode || 'datetime';
     return (
       <View>
-        { (Platform.OS === 'ios') ?
+        {(Platform.OS === 'ios') ?
           <View
             style={{
               backgroundColor: theme.pickerBgColor,
@@ -96,43 +96,50 @@ export default class DatePickerField extends Component {
                 justifyContent: 'space-between',
               }}
             >
-              <Icon color={theme.textInputIconColor} name={attributes.icon} style={attributes.iconStyle} />
-              <Text style={{ ...attributes.labelStyle, ...{color: theme.labelActiveColor}}}>{attributes.label}</Text>
+              <View style={{
+                flexDirection: 'row',
+                alignItems: 'flex-start',
+                //
+              }}>
+                <Icon color={theme.textInputIconColor} name={attributes.icon} style={attributes.iconStyle} />
+                <Text style={{ ...attributes.labelStyle, ...{ color: theme.labelActiveColor } }}>{attributes.label}</Text>
+              </View>
+
               <View
                 style={{
                   flexDirection: 'row',
                 }}
               >
                 {
-                (mode ?
-                  (mode === 'date'
-                  || mode === 'datetime')
-                : true) &&
-                <View
-                  style={{
-                    marginHorizontal: 5,
-                  }}
-                >
-                  <Text>
-                    { (value && I18n.strftime(value, '%d %b %Y')) || 'Selecione' }
-                  </Text>
-                </View>
-            }
+                  (mode ?
+                    (mode === 'date'
+                      || mode === 'datetime')
+                    : true) &&
+                  <View
+                    style={{
+                      marginHorizontal: 5,
+                    }}
+                  >
+                    <Text>
+                      {(value && I18n.strftime(value, '%d %b %Y')) || 'Selecione'}
+                    </Text>
+                  </View>
+                }
                 {
-                (mode ?
-                  (mode === 'time'
-                  || mode === 'datetime')
-                : true) &&
-                <View
-                  style={{
-                    marginHorizontal: 5,
-                  }}
-                >
-                  <Text>
-                    { (value && I18n.strftime(value, '%I:%M %p')) || 'Selecione' }
-                  </Text>
-                </View>
-            }
+                  (mode ?
+                    (mode === 'time'
+                      || mode === 'datetime')
+                    : true) &&
+                  <View
+                    style={{
+                      marginHorizontal: 5,
+                    }}
+                  >
+                    <Text>
+                      {(value && I18n.strftime(value, '%I:%M %p')) || 'Selecione'}
+                    </Text>
+                  </View>
+                }
               </View>
             </TouchableOpacity>
             <ErrorComponent {...{ attributes, theme }} />
@@ -149,7 +156,7 @@ export default class DatePickerField extends Component {
               />
             </Panel>
           </View>
-            :
+          :
           <TouchableOpacity
             onPress={this.showDatePicker}
             style={{
@@ -165,15 +172,22 @@ export default class DatePickerField extends Component {
               justifyContent: 'space-between',
             }}
           >
-            <Icon color={theme.textInputIconColor} name={attributes.icon} style={attributes.iconStyle} />
-            <Text style={{ ...attributes.labelStyle, ...{color: theme.labelActiveColor}}}>{attributes.label}</Text>
+            <View style={{
+
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              //
+            }}>
+              <Icon color={theme.textInputIconColor} name={attributes.icon} style={attributes.iconStyle} />
+              <Text style={{ ...attributes.labelStyle, ...{ color: theme.labelActiveColor } }}>{attributes.label}</Text>
+            </View>
             <View
               style={{
                 flexDirection: 'row',
               }}
             >
               {
-                  (attributes.mode === 'date'
+                (attributes.mode === 'date'
                   || attributes.mode === 'datetime')
                 &&
                 <TouchableOpacity
@@ -182,29 +196,29 @@ export default class DatePickerField extends Component {
                     marginHorizontal: 5,
                   }}
                 >
-                  <Text  onPress={this.showDatePicker}>
-                    { (value && I18n.strftime(value, '%d %b %Y')) || 'Selecione' }
+                  <Text onPress={this.showDatePicker}>
+                    {(value && I18n.strftime(value, '%d %b %Y')) || 'Selecione'}
                   </Text>
                 </TouchableOpacity>
-            }
+              }
               {
                 (attributes.mode === 'time'
-                || attributes.mode === 'datetime')
-              &&
-              <TouchableOpacity
-                style={{
-                  marginHorizontal: 5,
-                }}
-              >
-                <Text onPress={this.showTimePicker}>
-                  { (value && I18n.strftime(value, '%I:%M %p')) || 'Time' }
-                </Text>
+                  || attributes.mode === 'datetime')
+                &&
+                <TouchableOpacity
+                  style={{
+                    marginHorizontal: 5,
+                  }}
+                >
+                  <Text onPress={this.showTimePicker}>
+                    {(value && I18n.strftime(value, '%I:%M %p')) || 'Time'}
+                  </Text>
                 </TouchableOpacity>
-            }
+              }
             </View>
             <ErrorComponent {...{ attributes, theme }} />
           </TouchableOpacity>
-          }
+        }
       </View>
     );
   }

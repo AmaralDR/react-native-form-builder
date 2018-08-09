@@ -30,8 +30,16 @@ export default class SwitchField extends Component {
             justifyContent: 'space-between',
           }}
         >
+        <View  style={{
+
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+            //
+          }}>
           <Icon color={theme.textInputIconColor} name={attributes.icon} style={attributes.iconStyle} />
           <Text style={{ ...attributes.labelStyle, ...{color: theme.labelActiveColor}}}>{attributes.label}</Text>
+
+          </View>
           <Switch
             // onTintColor={'blue'}
             onValueChange={value => this.handleChange(value)}

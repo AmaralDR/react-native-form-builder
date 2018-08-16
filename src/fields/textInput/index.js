@@ -45,7 +45,7 @@ export default class TextInputField extends Component {
                 onSubmitEditing={() => this.props.onSummitTextInput(this.props.attributes.name)}
                 placeholderTextColor={theme.inputColorPlaceholder}
                 editable={attributes.editable}
-                //value={attributes.value && attributes.value.toString()}
+                value={attributes.value && attributes.value.toString()}
                 keyboardType={keyboardType}
                 onChangeText={(text) => {
                   var re = /^\d+$/;
@@ -83,7 +83,7 @@ export default class TextInputField extends Component {
                     this.setState({ text: text});
                   }
                 }}
-                value={this.state.text}
+                //value={this.state.text}
                 //onChangeText={text => this.handleChange(text)}
                 {...inputProps}
               />

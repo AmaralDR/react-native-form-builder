@@ -5,6 +5,10 @@ import { Platform } from 'react-native';
 import { getKeyboardType } from '../../utils/methods';
 
 export default class TextInputField extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { text: '' };
+  }
   static propTypes = {
     attributes: PropTypes.object,
     theme: PropTypes.object,
@@ -41,9 +45,46 @@ export default class TextInputField extends Component {
                 onSubmitEditing={() => this.props.onSummitTextInput(this.props.attributes.name)}
                 placeholderTextColor={theme.inputColorPlaceholder}
                 editable={attributes.editable}
-                value={attributes.value && attributes.value.toString()}
+                //value={attributes.value && attributes.value.toString()}
                 keyboardType={keyboardType}
-                onChangeText={text => this.handleChange(text)}
+                onChangeText={(text) => {
+                  var re = /^\d+$/;
+                  var texto = text
+                  //var mask = '000.000.000-00';
+                  if(attributes.inputMask){
+                    var mask = attributes.inputMask;
+                    var retorno = '';
+                    var index = 0;
+                    // Fazer um loop no texto pegando apenas numeros
+                    //element
+                    for (var i = 0; i < mask.length; i++){
+                      if(re.test(texto[i])){
+                        if (re.test(mask[index])) {
+                          //console.log(`key: ${i} || value: ${texto[i]}`);
+                          retorno = retorno + texto[i];
+                        }else{
+                          //console.log(`NaN key: ${i} || value: ${mask[index]}`);
+                          retorno = retorno + mask[index];
+                          retorno = retorno + texto[i];
+                          index = index + 1;
+                        }
+                        index = index + 1;
+                      }
+                    }
+                    //console.log(retorno);
+                    if(retorno.length <= mask.length){
+                      this.handleChange(retorno);
+                      this.setState({ text: retorno});
+
+                    }
+
+                  }else{
+                    this.handleChange(text);
+                    this.setState({ text: text});
+                  }
+                }}
+                value={this.state.text}
+                //onChangeText={text => this.handleChange(text)}
                 {...inputProps}
               />
               { theme.textInputErrorIcon && attributes.error ?

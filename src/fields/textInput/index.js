@@ -19,6 +19,31 @@ export default class TextInputField extends Component {
   handleChange(text) {
     this.props.updateValue(this.props.attributes.name, text);
   }
+  formatMask(text, mask) {
+    var re = /^\d+$/;
+    var texto = text
+    if(mask){
+      var retorno = '';
+      var index = 0;
+      // Fazer um loop no texto pegando apenas numeros
+      for (var i = 0; i < mask.length; i++){
+        if(re.test(texto[i])){
+          if (re.test(mask[index])) {
+            retorno = retorno + texto[i];
+          }else{
+            retorno = retorno + mask[index];
+            retorno = retorno + texto[i];
+            index = index + 1;
+          }
+          index = index + 1;
+        }
+      }
+      return retorno.toString();
+    }else{
+      return text.toString();
+    }
+  }
+
   render() {
     const { theme, attributes, ErrorComponent } = this.props;
     const inputProps = attributes.props;
@@ -45,7 +70,7 @@ export default class TextInputField extends Component {
                 onSubmitEditing={() => this.props.onSummitTextInput(this.props.attributes.name)}
                 placeholderTextColor={theme.inputColorPlaceholder}
                 editable={attributes.editable}
-                value={attributes.value && attributes.value.toString()}
+                value={attributes.value && this.formatMask(attributes.value, attributes.inputMask)}
                 keyboardType={keyboardType}
                 onChangeText={(text) => {
                   var re = /^\d+$/;

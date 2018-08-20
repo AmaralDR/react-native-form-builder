@@ -414,6 +414,7 @@ It's an object of key value pair where key will be the `type` of the component &
 | attributes | `object` | In this prop you can access the field's attributes (value, error, errorMsg ....). |
 | updateValue(fieldName, Value) | `function` | You need to use this method to update the value of the field |
 | onSummitTextInput(fieldName) | `function`| If you're using TextInput then you can use this function to automatically manage the text input focus.For example you can define it in the `onSubmitEditing` prop of TextInput
+| onEndEditingTextInput(fieldName,value) | `async function`| You define `onEndEditing` prop of TextInput, this function need return the new State for the form.
 | theme | `object` | Use the theme variables to style your component
 
 ## Add Custom Error Component

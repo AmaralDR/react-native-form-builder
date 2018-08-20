@@ -15,6 +15,7 @@ export default class TextInputField extends Component {
     updateValue: PropTypes.func,
     onSummitTextInput: PropTypes.func,
     ErrorComponent: PropTypes.func,
+    
   }
   handleChange(text) {
     this.props.updateValue(this.props.attributes.name, text);
@@ -72,6 +73,7 @@ export default class TextInputField extends Component {
                 editable={attributes.editable}
                 value={attributes.value && this.formatMask(attributes.value, attributes.inputMask)}
                 keyboardType={keyboardType}
+                onEndEditing={() => this.props.onEndEditingTextInput(attributes.name,attributes.name)}
                 onChangeText={(text) => {
                   var re = /^\d+$/;
                   var texto = text

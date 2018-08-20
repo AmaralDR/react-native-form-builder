@@ -34,6 +34,7 @@ export default class FormBuilder extends Component {
     autoValidation: PropTypes.bool,
     customValidation: PropTypes.func,
     onValueChange: PropTypes.func,
+    onEndEditingTextInput: PropTypes.func,
   }
   constructor(props) {
     super(props);
@@ -65,6 +66,7 @@ export default class FormBuilder extends Component {
     this.resetForm = this.resetForm.bind(this);
     // Manages textInput Focus
     this.onSummitTextInput = this.onSummitTextInput.bind(this);
+    this.onEndEditingTextInput = this.onEndEditingTextInput.bind(this);
   }
   componentDidMount() {
     const { formData } = this.props;
@@ -77,6 +79,14 @@ export default class FormBuilder extends Component {
       this[Object.keys(this.state)[index + 1]].textInput._root.focus();
     } else {
       Keyboard.dismiss();
+    }
+  }
+
+  async onEndEditingTextInput(name,value){
+    const valueObj = this.state[name];
+    if(valueObj.onEndEditingTextInput && typeof valueObj.onEndEditingTextInput ==='function'){
+      let ret = await valueObj.onEndEditingTextInput(name,value);
+      this.setValues(ret);
     }
   }
   onValueChange(name, value) {
@@ -256,6 +266,7 @@ export default class FormBuilder extends Component {
                 ref={(c) => { this[field.name] = c; }}
                 {... commonProps}
                 onSummitTextInput={this.onSummitTextInput}
+                onEndEditingTextInput={this.onEndEditingTextInput}
               />
             );
           case 'picker':

@@ -1,14 +1,14 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { View, Text, Switch, Icon } from 'native-base';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { View, Text, Switch, Icon } from "native-base";
 
 export default class SwitchField extends Component {
   static propTypes = {
     attributes: PropTypes.object,
     theme: PropTypes.object,
     updateValue: PropTypes.func,
-    ErrorComponent: PropTypes.func,
-  }
+    ErrorComponent: PropTypes.func
+  };
   handleChange(value) {
     this.props.updateValue(this.props.attributes.name, value);
   }
@@ -24,21 +24,32 @@ export default class SwitchField extends Component {
             marginHorizontal: 10,
             marginVertical: 0,
             paddingVertical: 10,
-            marginLeft: 15,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            // marginLeft: 15,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between"
           }}
         >
-        <View  style={{
-
-            flexDirection: 'row',
-            alignItems: 'flex-start',
-            //
-          }}>
-          <Icon color={theme.textInputIconColor} name={attributes.icon} style={attributes.iconStyle} />
-          <Text style={{ ...attributes.labelStyle, ...{color: theme.labelActiveColor}}}>{attributes.label}</Text>
-
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "flex-start"
+              //
+            }}
+          >
+            <Icon
+              color={theme.textInputIconColor}
+              name={attributes.icon}
+              style={attributes.iconStyle}
+            />
+            <Text
+              style={{
+                ...attributes.labelStyle,
+                ...{ color: theme.labelActiveColor }
+              }}
+            >
+              {attributes.label}
+            </Text>
           </View>
           <Switch
             // onTintColor={'blue'}

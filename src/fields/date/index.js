@@ -1,22 +1,28 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { View, Text, Icon } from 'native-base';
-import I18n from 'react-native-i18n';
-import { Platform, DatePickerIOS, DatePickerAndroid, TouchableOpacity, TimePickerAndroid } from 'react-native';
-import Panel from '../../components/panel';
-import Moment from 'moment';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { View, Text, Icon } from "native-base";
+import I18n from "react-native-i18n";
+import {
+  Platform,
+  DatePickerIOS,
+  DatePickerAndroid,
+  TouchableOpacity,
+  TimePickerAndroid
+} from "react-native";
+import Panel from "../../components/panel";
+import Moment from "moment";
 
 export default class DatePickerField extends Component {
   static defaultProps = {
-    timeZoneOffsetInHours: (-1) * ((new Date()).getTimezoneOffset() / 60),
+    timeZoneOffsetInHours: -1 * (new Date().getTimezoneOffset() / 60)
   };
   static propTypes = {
     attributes: PropTypes.object,
     updateValue: PropTypes.func,
     timeZoneOffsetInHours: PropTypes.number,
     theme: PropTypes.object,
-    ErrorComponent: PropTypes.func,
-  }
+    ErrorComponent: PropTypes.func
+  };
   constructor(props) {
     super(props);
     this.onDateChange = this.onDateChange.bind(this);
@@ -26,13 +32,15 @@ export default class DatePickerField extends Component {
   onDateChange(date) {
     this.props.updateValue(this.props.attributes.name, date);
   }
-  showTimePicker = async (stateKey) => {
+  showTimePicker = async stateKey => {
     const { attributes } = this.props;
-    const currentDate = attributes.value ? new Date(attributes.value) : new Date();
+    const currentDate = attributes.value
+      ? new Date(attributes.value)
+      : new Date();
     try {
       const { action, minute, hour } = await TimePickerAndroid.open({
         hour: currentDate.getHours(),
-        minute: currentDate.getMinutes(),
+        minute: currentDate.getMinutes()
       });
       if (action === TimePickerAndroid.timeSetAction) {
         const date = currentDate;
@@ -44,17 +52,17 @@ export default class DatePickerField extends Component {
       console.warn(`Error in example '${stateKey}': `, message);
     }
   };
-  showDatePicker = async (stateKey) => {
+  showDatePicker = async stateKey => {
     const { attributes } = this.props;
-    const currentDate = attributes.value ? new Date(attributes.value) : new Date();
+    const currentDate = attributes.value
+      ? new Date(attributes.value)
+      : new Date();
     try {
-      const { action, year, month, day } = await DatePickerAndroid.open(
-        {
-          date: currentDate,
-          minDate: attributes.minDate && new Date(attributes.minDate),
-          maxDate: attributes.maxDate && new Date(attributes.maxDate),
-        }
-      );
+      const { action, year, month, day } = await DatePickerAndroid.open({
+        date: currentDate,
+        minDate: attributes.minDate && new Date(attributes.minDate),
+        maxDate: attributes.maxDate && new Date(attributes.maxDate)
+      });
       if (action !== DatePickerAndroid.dismissedAction) {
         const currentHour = currentDate.getHours();
         const currentMinutes = currentDate.getMinutes();
@@ -74,10 +82,10 @@ export default class DatePickerField extends Component {
   render() {
     const { theme, attributes, ErrorComponent } = this.props;
     const value = (attributes.value && new Date(attributes.value)) || null;
-    const mode = attributes.mode || 'datetime';
+    const mode = attributes.mode || "datetime";
     return (
       <View>
-        {(Platform.OS === 'ios') ?
+        {Platform.OS === "ios" ? (
           <View
             style={{
               backgroundColor: theme.pickerBgColor,
@@ -85,72 +93,90 @@ export default class DatePickerField extends Component {
               borderBottomWidth: theme.borderWidth,
               marginHorizontal: 10,
               marginVertical: 0,
-              marginLeft: 15,
+              marginLeft: 15
             }}
           >
             <TouchableOpacity
               onPress={() => this.panel.toggle()}
               style={{
                 paddingVertical: 10,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between"
               }}
             >
-              <View style={{
-                flexDirection: 'row',
-                alignItems: 'flex-start',
-                //
-              }}>
-                <Icon color={theme.textInputIconColor} name={attributes.icon} style={attributes.iconStyle} />
-                <Text style={{ ...attributes.labelStyle, ...{ color: theme.labelActiveColor } }}>{attributes.label}</Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "flex-start"
+                  //
+                }}
+              >
+                <Icon
+                  color={theme.textInputIconColor}
+                  name={attributes.icon}
+                  style={attributes.iconStyle}
+                />
+                <Text
+                  style={{
+                    ...attributes.labelStyle,
+                    ...{ color: theme.labelActiveColor }
+                  }}
+                >
+                  {attributes.label}
+                </Text>
               </View>
 
               <View
                 style={{
-                  flexDirection: 'row',
+                  flexDirection: "row"
                 }}
               >
-                {
-                  (mode ?
-                    (mode === 'date'
-                      || mode === 'datetime')
-                    : true) &&
+                {(mode ? mode === "date" || mode === "datetime" : true) && (
                   <View
                     style={{
-                      marginHorizontal: 5,
+                      marginHorizontal: 5
                     }}
                   >
                     <Text>
-                      {(value && Moment(value).format(attributes.dataFormat || 'YYYY-MM-DD')) || 'Selecione'}
-                      {/* {(value && I18n.strftime(value, '%d %b %Y')) || 'Selecione'} */}
+                      {/* {(value && Moment(value).format(attributes.dataFormat || 'YYYY-MM-DD')) || 'Selecione'} */}
+                      {(value &&
+                        I18n.strftime(
+                          value,
+                          attributes.dataFormat || "%d %b %Y"
+                        )) ||
+                        "Selecione"}
                     </Text>
                   </View>
-                }
-                {
-                  (mode ?
-                    (mode === 'time'
-                      || mode === 'datetime')
-                    : true) &&
+                )}
+                {(mode ? mode === "time" || mode === "datetime" : true) && (
                   <View
                     style={{
-                      marginHorizontal: 5,
+                      marginHorizontal: 5
                     }}
                   >
                     <Text>
-                      {(value && I18n.strftime(value, '%I:%M %p')) || 'Selecione'}
+                      {(value &&
+                        I18n.strftime(
+                          value,
+                          attributes.dataFormat || "%I:%M %p"
+                        )) ||
+                        "Selecione"}
                     </Text>
                   </View>
-                }
+                )}
               </View>
             </TouchableOpacity>
             <ErrorComponent {...{ attributes, theme }} />
             <Panel
-              ref={(c) => { this.panel = c; }}
+              ref={c => {
+                this.panel = c;
+              }}
             >
               <DatePickerIOS
                 date={value || new Date()}
                 mode={mode}
+                locale={attributes.locale || "pt-br"}
                 maximumDate={attributes.maxDate && new Date(attributes.maxDate)}
                 minimumDate={attributes.minDate && new Date(attributes.minDate)}
                 timeZoneOffsetInMinutes={this.props.timeZoneOffsetInHours * 60}
@@ -158,7 +184,7 @@ export default class DatePickerField extends Component {
               />
             </Panel>
           </View>
-          :
+        ) : (
           <TouchableOpacity
             onPress={this.showDatePicker}
             style={{
@@ -169,59 +195,77 @@ export default class DatePickerField extends Component {
               marginVertical: 0,
               paddingVertical: 10,
               marginLeft: 15,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between"
             }}
           >
-            <View style={{
-
-              flexDirection: 'row',
-              alignItems: 'flex-start',
-              //
-            }}>
-              <Icon color={theme.textInputIconColor} name={attributes.icon} style={attributes.iconStyle} />
-              <Text style={{ ...attributes.labelStyle, ...{ color: theme.labelActiveColor } }}>{attributes.label}</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "flex-start"
+                //
+              }}
+            >
+              <Icon
+                color={theme.textInputIconColor}
+                name={attributes.icon}
+                style={attributes.iconStyle}
+              />
+              <Text
+                style={{
+                  ...attributes.labelStyle,
+                  ...{ color: theme.labelActiveColor }
+                }}
+              >
+                {attributes.label}
+              </Text>
             </View>
             <View
               style={{
-                flexDirection: 'row',
+                flexDirection: "row"
               }}
             >
-              {
-                (attributes.mode === 'date'
-                  || attributes.mode === 'datetime')
-                &&
+              {(attributes.mode === "date" ||
+                attributes.mode === "datetime") && (
                 <TouchableOpacity
                   hitSlop={{ top: 10, bottom: 10, right: 300, left: 50 }}
                   style={{
-                    marginHorizontal: 5,
+                    marginHorizontal: 5
                   }}
                 >
                   <Text onPress={this.showDatePicker}>
-                    {(value && Moment(value).format(attributes.dataFormat || 'YYYY-MM-DD')) || 'Selecione'}
-                    {/* {(value && I18n.strftime(value, '%d %b %Y')) || 'Selecione'} */}
+                    {/* {(value && Moment(value).format(attributes.dataFormat || 'YYYY-MM-DD')) || 'Selecione'} */}
+                    {(value &&
+                      I18n.strftime(
+                        value,
+                        attributes.dataFormat || "%d %b %Y"
+                      )) ||
+                      "Selecione"}
                   </Text>
                 </TouchableOpacity>
-              }
-              {
-                (attributes.mode === 'time'
-                  || attributes.mode === 'datetime')
-                &&
+              )}
+              {(attributes.mode === "time" ||
+                attributes.mode === "datetime") && (
                 <TouchableOpacity
                   style={{
-                    marginHorizontal: 5,
+                    marginHorizontal: 5
                   }}
                 >
                   <Text onPress={this.showTimePicker}>
-                    {(value && I18n.strftime(value, '%I:%M %p')) || 'Time'}
+                    {(value &&
+                      I18n.strftime(
+                        value,
+                        attributes.dataFormat || "%I:%M %p"
+                      )) ||
+                      "Time"}
                   </Text>
                 </TouchableOpacity>
-              }
+              )}
             </View>
             <ErrorComponent {...{ attributes, theme }} />
           </TouchableOpacity>
-        }
+        )}
       </View>
     );
   }

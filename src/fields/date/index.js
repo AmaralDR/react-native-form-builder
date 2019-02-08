@@ -14,7 +14,7 @@ import moment from "moment";
 
 export default class DatePickerField extends Component {
   static defaultProps = {
-    timeZoneOffsetInHours: -1 * (new Date().getTimezoneOffset() / 60)
+    timeZoneOffsetInHours: -1 * (moment().toDate().getTimezoneOffset() / 60)
   };
   static propTypes = {
     attributes: PropTypes.object,
@@ -42,8 +42,8 @@ export default class DatePickerField extends Component {
   showTimePicker = async stateKey => {
     const { attributes } = this.props;
     const currentDate = attributes.value
-      ? new Date(attributes.value)
-      : new Date();
+      ? moment(attributes.value).toDate()
+      : moment().toDate();
     try {
       const { action, minute, hour } = await TimePickerAndroid.open({
         hour: currentDate.getHours(),
@@ -62,18 +62,18 @@ export default class DatePickerField extends Component {
   showDatePicker = async stateKey => {
     const { attributes } = this.props;
     const currentDate = attributes.value
-      ? new Date(attributes.value)
-      : new Date();
+      ? moment(attributes.value).toDate()
+      : moment().toDate();
     try {
       const { action, year, month, day } = await DatePickerAndroid.open({
         date: currentDate,
-        minDate: attributes.minDate && new Date(attributes.minDate),
-        maxDate: attributes.maxDate && new Date(attributes.maxDate)
+        minDate: attributes.minDate && moment(attributes.minDate).toDate(),
+        maxDate: attributes.maxDate && moment(attributes.maxDate).toDate()
       });
       if (action !== DatePickerAndroid.dismissedAction) {
         const currentHour = currentDate.getHours();
         const currentMinutes = currentDate.getMinutes();
-        const date = new Date(year, month, day);
+        const date = moment(year, month, day).toDate();
         if (currentHour) {
           date.setHours(currentHour);
         }
@@ -88,7 +88,7 @@ export default class DatePickerField extends Component {
   };
   render() {
     const { theme, attributes, ErrorComponent } = this.props;
-    const value = (attributes.value && new Date(attributes.value)) || null;
+    const value = (attributes.value && moment(attributes.value).toDate()) || null;
     const mode = attributes.mode || "datetime";
     return (
       <View>
@@ -181,11 +181,11 @@ export default class DatePickerField extends Component {
               }}
             >
               <DatePickerIOS
-                date={value || new Date()}
+                date={value || moment().toDate()}
                 mode={mode}
                 locale={attributes.locale || "pt-br"}
-                maximumDate={attributes.maxDate && new Date(attributes.maxDate)}
-                minimumDate={attributes.minDate && new Date(attributes.minDate)}
+                maximumDate={attributes.maxDate && moment(attributes.maxDate).toDate()}
+                minimumDate={attributes.minDate && moment(attributes.minDate).toDate()}
                 timeZoneOffsetInMinutes={this.props.timeZoneOffsetInHours * 60}
                 onDateChange={this.onDateChange}
               />

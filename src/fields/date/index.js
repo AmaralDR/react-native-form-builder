@@ -30,7 +30,7 @@ export default class DatePickerField extends Component {
     this.showDatePicker = this.showDatePicker.bind(this);
   }
   onDateChange(date) {
-    if (this.props.attributes == "date") {
+    if (this.props.attributes.mode == "date") {
       this.props.updateValue(
         this.props.attributes.name,
         moment(date).startOf("day")

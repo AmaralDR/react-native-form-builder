@@ -10,7 +10,7 @@ import {
   TimePickerAndroid
 } from "react-native";
 import Panel from "../../components/panel";
-import Moment from "moment";
+import moment from "moment";
 
 export default class DatePickerField extends Component {
   static defaultProps = {
@@ -30,7 +30,14 @@ export default class DatePickerField extends Component {
     this.showDatePicker = this.showDatePicker.bind(this);
   }
   onDateChange(date) {
-    this.props.updateValue(this.props.attributes.name, date);
+    if (this.props.attributes == "date") {
+      this.props.updateValue(
+        this.props.attributes.name,
+        moment(date).startOf("day")
+      );
+    } else {
+      this.props.updateValue(this.props.attributes.name, date);
+    }
   }
   showTimePicker = async stateKey => {
     const { attributes } = this.props;

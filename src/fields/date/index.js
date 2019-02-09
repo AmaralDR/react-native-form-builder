@@ -184,7 +184,7 @@ export default class DatePickerField extends Component {
                 locale={attributes.locale || "pt-br"}
                 maximumDate={attributes.maxDate && new Date(attributes.maxDate)}
                 minimumDate={attributes.minDate && new Date(attributes.minDate)}
-                timeZoneOffsetInMinutes={this.props.timeZoneOffsetInHours * 60}
+                // timeZoneOffsetInMinutes={this.props.timeZoneOffsetInHours * 60}
                 onDateChange={this.onDateChange}
               />
             </Panel>

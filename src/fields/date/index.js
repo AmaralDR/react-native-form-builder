@@ -11,10 +11,11 @@ import {
 } from "react-native";
 import Panel from "../../components/panel";
 import moment from "moment";
+moment.locale("pt-br");
 
 export default class DatePickerField extends Component {
   static defaultProps = {
-    timeZoneOffsetInHours: -1 * (moment().toDate().getTimezoneOffset() / 60)
+    timeZoneOffsetInHours: -1 * (new Date().getTimezoneOffset() / 60)
   };
   static propTypes = {
     attributes: PropTypes.object,
@@ -30,20 +31,13 @@ export default class DatePickerField extends Component {
     this.showDatePicker = this.showDatePicker.bind(this);
   }
   onDateChange(date) {
-    if (this.props.attributes.mode == "date") {
-      this.props.updateValue(
-        this.props.attributes.name,
-        moment(date).startOf("day")
-      );
-    } else {
-      this.props.updateValue(this.props.attributes.name, date);
-    }
+    this.props.updateValue(this.props.attributes.name, date);
   }
   showTimePicker = async stateKey => {
     const { attributes } = this.props;
     const currentDate = attributes.value
-      ? moment(attributes.value).toDate()
-      : moment().toDate();
+      ? new Date(attributes.value)
+      : new Date();
     try {
       const { action, minute, hour } = await TimePickerAndroid.open({
         hour: currentDate.getHours(),
@@ -62,18 +56,18 @@ export default class DatePickerField extends Component {
   showDatePicker = async stateKey => {
     const { attributes } = this.props;
     const currentDate = attributes.value
-      ? moment(attributes.value).toDate()
-      : moment().toDate();
+      ? new Date(attributes.value)
+      : new Date();
     try {
       const { action, year, month, day } = await DatePickerAndroid.open({
         date: currentDate,
-        minDate: attributes.minDate && moment(attributes.minDate).toDate(),
-        maxDate: attributes.maxDate && moment(attributes.maxDate).toDate()
+        minDate: attributes.minDate && new Date(attributes.minDate),
+        maxDate: attributes.maxDate && new Date(attributes.maxDate)
       });
       if (action !== DatePickerAndroid.dismissedAction) {
         const currentHour = currentDate.getHours();
         const currentMinutes = currentDate.getMinutes();
-        const date = moment(year, month, day).toDate();
+        const date = new Date(year, month, day);
         if (currentHour) {
           date.setHours(currentHour);
         }
@@ -88,7 +82,7 @@ export default class DatePickerField extends Component {
   };
   render() {
     const { theme, attributes, ErrorComponent } = this.props;
-    const value = (attributes.value && moment(attributes.value).toDate()) || null;
+    const value = (attributes.value && new Date(attributes.value)) || null;
     const mode = attributes.mode || "datetime";
     return (
       <View>
@@ -146,13 +140,17 @@ export default class DatePickerField extends Component {
                     }}
                   >
                     <Text>
-                      {/* {(value && Moment(value).format(attributes.dataFormat || 'YYYY-MM-DD')) || 'Selecione'} */}
                       {(value &&
+                        moment(value).format(
+                          attributes.dataFormat || "DD/MM/YYYY"
+                        )) ||
+                        "Selecione"}
+                      {/* {(value &&
                         I18n.strftime(
                           value,
                           attributes.dataFormat || "%d %b %Y"
                         )) ||
-                        "Selecione"}
+                        "Selecione"} */}
                     </Text>
                   </View>
                 )}
@@ -181,11 +179,11 @@ export default class DatePickerField extends Component {
               }}
             >
               <DatePickerIOS
-                date={value || moment().toDate()}
+                date={value || new Date()}
                 mode={mode}
                 locale={attributes.locale || "pt-br"}
-                maximumDate={attributes.maxDate && moment(attributes.maxDate).toDate()}
-                minimumDate={attributes.minDate && moment(attributes.minDate).toDate()}
+                maximumDate={attributes.maxDate && new Date(attributes.maxDate)}
+                minimumDate={attributes.minDate && new Date(attributes.minDate)}
                 timeZoneOffsetInMinutes={this.props.timeZoneOffsetInHours * 60}
                 onDateChange={this.onDateChange}
               />
@@ -242,13 +240,17 @@ export default class DatePickerField extends Component {
                   }}
                 >
                   <Text onPress={this.showDatePicker}>
-                    {/* {(value && Moment(value).format(attributes.dataFormat || 'YYYY-MM-DD')) || 'Selecione'} */}
                     {(value &&
+                      moment(value).format(
+                        attributes.dataFormat || "DD/MM/YYYY"
+                      )) ||
+                      "Selecione"}
+                    {/* {(value &&
                       I18n.strftime(
                         value,
                         attributes.dataFormat || "%d %b %Y"
                       )) ||
-                      "Selecione"}
+                      "Selecione"} */}
                   </Text>
                 </TouchableOpacity>
               )}
